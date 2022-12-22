@@ -23,13 +23,18 @@ public class UserServiceImpl implements UserService {
 
     public void saveUser(String name, String lastName, byte age) {
         userDao.saveUser(name, lastName, age);
-        System.out.println("User с именем – " + name + " добавлен в базу данных");
+        System.out.println("User с именем – " + name + " " + lastName + " " + age + " лет" +" добавлен в базу данных");
     }
 
     @Override
     public void removeUserById() {
 
     }
+
+//
+//    public void removeUserById(long id) {
+//        userDao.removeUserById(id);
+//    }
 
     public void removeUserById(long id) {
         userDao.removeUserById(id);
