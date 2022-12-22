@@ -1,6 +1,5 @@
 package jm.task.core.jdbc.util;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -12,12 +11,15 @@ public class Util {
     private static final String PASSWORD = "root";
 
     public static Connection getConnection() {
+        Connection connection = null;
         try {
-            Class.forName(DRIVER).getDeclaredConstructor().newInstance();
-            return DriverManager.getConnection(HOST, LOGIN, PASSWORD);
-        } catch (SQLException | ClassNotFoundException | NoSuchMethodException | InstantiationException |
-                 IllegalAccessException | InvocationTargetException e) {
-            throw new RuntimeException(e);
+            Class.forName(DRIVER);
+            connection = DriverManager.getConnection(HOST, LOGIN, PASSWORD);
+            System.out.println("Connection OK");
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("Connection ERROR");
         }
+        return  connection;
     }
 }
