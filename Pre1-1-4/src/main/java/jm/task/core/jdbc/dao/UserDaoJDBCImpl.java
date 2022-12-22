@@ -14,7 +14,7 @@ public class UserDaoJDBCImpl implements UserDao {  // Обработка все�
 
  public UserDaoJDBCImpl() {
  }
-
+    // Создание таблицы User(ов)
   public void createUsersTable() {
            try (Connection connection = Util.getConnection();
                Statement statement = connection.createStatement()) {
