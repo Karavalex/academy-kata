@@ -59,6 +59,7 @@ public class UserDaoJDBCImpl implements UserDao {  // Обработка все�
              PreparedStatement pstm = connection.prepareStatement("DELETE FROM users WHERE id = ?")) {
             pstm.setLong(1, id);
             pstm.executeUpdate();
+            System.out.println("Удаление User из таблицы ( по id )");
         } catch (SQLException e) {
             e.printStackTrace();
         }
