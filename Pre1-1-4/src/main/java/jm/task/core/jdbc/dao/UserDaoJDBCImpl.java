@@ -20,7 +20,7 @@ public class UserDaoJDBCImpl implements UserDao {  // Обработка все�
                Statement statement = connection.createStatement()) {
                statement.executeUpdate ("CREATE TABLE IF NOT EXISTS users " +
                        "(id BIGINT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(40), lastname VARCHAR(40), age INT)");
-               System.out.println("createUsersTable OK");
+               System.out.println("Таблица создана");
           } catch (SQLException e) {
                throw new RuntimeException(e);
            //    System.out.println("createUsersTable ERROR");
@@ -47,7 +47,7 @@ public class UserDaoJDBCImpl implements UserDao {  // Обработка все�
             preparedStatement.setString(2, lastName);
             preparedStatement.setByte(3, age);
             preparedStatement.executeUpdate();
-            System.out.println("User с именем – " + name + " добавлен в базу данных");
+            System.out.println("User с именем – " + name + " " + lastName + " " + age + " лет" +" добавлен в базу данных");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -66,25 +66,27 @@ public class UserDaoJDBCImpl implements UserDao {  // Обработка все�
     }
 
     // Получение всех User(ов) из таблицы
-    public List<User> getAllUsers() {
-        List<User> users = new ArrayList<>();
-
+    public List<User> getAllUsers() { //Получение всех User(ов) из таблицы
+        List<User> users = new ArrayList<>(); // завожу Лист users для возврата
         try (Connection connection = Util.getConnection();
-                ResultSet resultSet = connection.createStatement().executeQuery("SELECT * FROM users")) {
-            while(resultSet.next()) {
-                User user = new User(resultSet.getString("name"),
-                        resultSet.getString("lastname"), resultSet.getByte("age"));
-                user.setId(resultSet.getLong("id"));
+             PreparedStatement preparedStatement = connection.prepareStatement(
+                     "SELECT id, name, lastname, age FROM users")) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                User user = new User();
+                user.setId(Long.valueOf(resultSet.getString(1)));
+                user.setName(resultSet.getString(2));
+                user.setLastName(resultSet.getString(3));
+                user.setAge(resultSet.getByte(4));
                 users.add(user);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-
         return users;
     }
 
-    // Очистка содержания таблицы
+        // Очистка содержания таблицы
     public void cleanUsersTable() {
         try (Connection connection = Util.getConnection();
              Statement statement = connection.createStatement()) {

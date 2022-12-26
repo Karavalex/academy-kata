@@ -13,6 +13,8 @@ public interface UserService {
 
     void removeUserById();
 
+    void removeUserById(long id);
+
     List<User> getAllUsers();
 
     void cleanUsersTable();
