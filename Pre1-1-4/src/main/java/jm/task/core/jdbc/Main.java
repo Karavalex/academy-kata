@@ -13,7 +13,7 @@ public class Main {
     public static void main(String[] args) {
 
 
-        final UserService userService = new UserServiceImpl();
+        UserService userService = new UserServiceImpl();
 
         userService.dropUsersTable();
         userService.createUsersTable();
