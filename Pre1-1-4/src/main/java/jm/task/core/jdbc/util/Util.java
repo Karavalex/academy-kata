@@ -5,20 +5,21 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Util {
-    private static final String HOST = "jdbc:mysql://localhost:3306/test?useSSL=false&allowMultiQueries=true&serverTimezone=UTC";
-    private static final String LOGIN = "root";
-    private static final String PASSWORD = "root";
+    private static Connection con = null;
 
-    public static Connection getConnection() {
-        Connection connection = null;
+    static {
+        String url = "jdbc:mysql://localhost:3306/test?useSSL=false&allowMultiQueries=true&serverTimezone=UTC";
+        String user = "root";
+        String pass = "root";
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            connection = DriverManager.getConnection(HOST , LOGIN , PASSWORD);
-            System.out.println("Connection OK");
-        } catch (SQLException | ClassNotFoundException e) {
+            con = DriverManager.getConnection(url , user , pass);
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
-            System.out.println("Connection ERROR");
         }
-        return connection;
+    }
+
+    public static Connection getConnection() {
+        return con;
     }
 }
