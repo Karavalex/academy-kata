@@ -22,7 +22,6 @@ public class UserDaoJDBCImpl implements UserDao {
             connection.setAutoCommit(false);
             statement.executeUpdate("CREATE TABLE IF NOT EXISTS users " +
                     "(id BIGINT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(40), lastname VARCHAR(40), age INT)");
-            connection.setTransactionIsolation(TRANSACTION_READ_UNCOMMITTED);
             connection.commit();
             System.out.println("Таблица создана");
         } catch (SQLException e) {
