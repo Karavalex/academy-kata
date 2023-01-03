@@ -7,6 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.sql.Connection.TRANSACTION_READ_UNCOMMITTED;
 
 
 public class UserDaoJDBCImpl implements UserDao {
