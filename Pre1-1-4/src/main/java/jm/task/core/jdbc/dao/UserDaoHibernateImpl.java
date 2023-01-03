@@ -1,5 +1,6 @@
 package jm.task.core.jdbc.dao;
 
+
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 import org.hibernate.HibernateException;
@@ -8,9 +9,9 @@ import org.hibernate.SessionFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-
 public class UserDaoHibernateImpl implements UserDao {
     private final SessionFactory sessionFactory = Util.getSessionFactory();
+
     public UserDaoHibernateImpl() {
 
     }
@@ -24,6 +25,8 @@ public class UserDaoHibernateImpl implements UserDao {
             session.getTransaction().commit();
         } catch (HibernateException e) {
             e.printStackTrace();
+            sessionFactory.getCurrentSession().beginTransaction().rollback();
+
         }
 
     }
@@ -36,20 +39,22 @@ public class UserDaoHibernateImpl implements UserDao {
             session.getTransaction().commit();
         } catch (HibernateException e) {
             e.printStackTrace();
-        }
+            sessionFactory.getCurrentSession().beginTransaction().rollback();
 
+        }
     }
 
     @Override
-    public void saveUser(String name, String lastName, byte age) {
+    public void saveUser(String name , String lastName , byte age) {
         try(Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             session.save(new User(name, lastName, age));
             session.getTransaction().commit();
         } catch (HibernateException e) {
             e.printStackTrace();
-        }
+            sessionFactory.getCurrentSession().beginTransaction().rollback();
 
+        }
     }
 
     @Override
@@ -60,14 +65,14 @@ public class UserDaoHibernateImpl implements UserDao {
             session.getTransaction().commit();
         } catch (HibernateException e) {
             e.printStackTrace();
-        }
+            sessionFactory.getCurrentSession().beginTransaction().rollback();
 
+        }
     }
 
     @Override
     public List<User> getAllUsers() {
         List<User> userList = new ArrayList<>();
-
         try(Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             userList = session.createSQLQuery("SELECT * FROM users").addEntity(User.class).list();
@@ -75,6 +80,8 @@ public class UserDaoHibernateImpl implements UserDao {
             return userList;
         } catch (HibernateException e) {
             e.printStackTrace();
+            sessionFactory.getCurrentSession().beginTransaction().rollback();
+
         }
         return userList;
     }
@@ -88,7 +95,8 @@ public class UserDaoHibernateImpl implements UserDao {
 
         } catch (HibernateException e) {
             e.printStackTrace();
-        }
+            sessionFactory.getCurrentSession().beginTransaction().rollback();
 
+        }
     }
 }
